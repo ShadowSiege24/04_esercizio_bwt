@@ -1,7 +1,8 @@
 import socket
 from bwt import bwt
 
-def start_server(host="127.0.0.1", port=5000):
+
+def start_server(host='127.0.0.1', port=5000):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
         server.bind((host,port))
         server.listen()
@@ -13,15 +14,15 @@ def start_server(host="127.0.0.1", port=5000):
 
         with connection:
             print("Client connesso:", address)
-
             print("Socket di connessione", connection.getsockname())
 
-            messaggio = connection.recv(1024)
-            print("Messaggio ricevuto: ", messaggio.decode())
+            messaggio = connection.recv(1024).decode()
+            print("Messaggio ricevuto: ", messaggio)
+
+            risultato = bwt(messaggio)
+
+            connection.sendall(risultato.encode())
 
 
-            connection.sendall(messaggio)
-
-
-print(start_server)
-
+if __name__ == "__main__":
+    start_server()
